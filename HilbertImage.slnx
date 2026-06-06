@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="HilbertImage.Android/HilbertImage.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="HilbertImage.Desktop/HilbertImage.Desktop.csproj" />
+  <Project Path="HilbertImage/HilbertImage.csproj" />
+</Solution>

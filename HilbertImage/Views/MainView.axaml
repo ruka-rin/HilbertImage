@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:HilbertImage.ViewModels"
+             xmlns:angif="using:AnimatedImage.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+             x:Class="HilbertImage.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+    <Grid RowDefinitions="*,Auto,10" ColumnDefinitions="*,Auto,Auto">
+        <Panel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+               Margin="10" Background="AliceBlue">
+            <Image Source="{Binding BitmapImage}"
+                   IsVisible="{Binding !IsLoading}"/>
+            <Image angif:ImageBehavior.AnimatedSource="avares://HilbertImage/Assets/Loading.gif"
+                   IsVisible="{Binding IsLoading}"/>
+        </Panel>
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
+                    Margin="10,0" Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="模式："/>
+            <ToggleSwitch VerticalAlignment="Center"
+                          IsChecked="{Binding IsConfuse}"
+                          OnContent="加密" OffContent="解密"/>
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"
+                Content="选择图片" Width="80"
+                HorizontalContentAlignment="Center"
+                Command="{Binding SelectImageCommand}"/>
+        <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"
+                Content="保存" Width="80" Margin="10,0"
+                HorizontalContentAlignment="Center"
+                Command="{Binding SaveImageCommand}"/>
+    </Grid>
+</UserControl>

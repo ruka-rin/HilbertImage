@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HilbertImage", "HilbertImage\HilbertImage.csproj", "{4B9860E8-7F24-40C5-9485-DF7884186727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HilbertImage.Android", "HilbertImage.Android\HilbertImage.Android.csproj", "{FBCC68A9-DFE3-4606-9051-F901F221D25A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HilbertImage.Desktop", "HilbertImage.Desktop\HilbertImage.Desktop.csproj", "{9B31AB06-CE20-4D93-A50C-149FB9BB5CCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B9860E8-7F24-40C5-9485-DF7884186727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B9860E8-7F24-40C5-9485-DF7884186727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B9860E8-7F24-40C5-9485-DF7884186727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B9860E8-7F24-40C5-9485-DF7884186727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCC68A9-DFE3-4606-9051-F901F221D25A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9B31AB06-CE20-4D93-A50C-149FB9BB5CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B31AB06-CE20-4D93-A50C-149FB9BB5CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B31AB06-CE20-4D93-A50C-149FB9BB5CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B31AB06-CE20-4D93-A50C-149FB9BB5CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
