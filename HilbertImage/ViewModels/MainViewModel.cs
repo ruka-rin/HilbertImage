@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using AnimatedImage.Avalonia;
 using Avalonia;
@@ -15,6 +16,7 @@ namespace HilbertImage.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    private Bitmap? _sourceImage;
     [ObservableProperty] private Bitmap? _bitmapImage;
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isConfuse;
@@ -44,7 +46,8 @@ public partial class MainViewModel : ViewModelBase
             await Task.Run(() =>
             {
                 IsLoading = true;
-                BitmapImage = ImageConfuserService.Confuse(new Bitmap(stream), IsConfuse);
+                _sourceImage = new Bitmap(stream);
+                BitmapImage = ImageConfuserService.Confuse(_sourceImage, IsConfuse);
                 IsLoading = false;
             });
         }
@@ -74,4 +77,29 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private async Task ToggleImage()
+    {
+        if (_sourceImage is not null)
+        {
+            await Task.Run(() =>
+            {
+                IsLoading = true;
+                BitmapImage = ImageConfuserService.Confuse(_sourceImage, IsConfuse);
+                IsLoading = false;
+            });
+        }
+    }
+
+    [RelayCommand]
+    private async Task SaveToAlbum()
+    {
+        if (BitmapImage is null || PlatformServices.ImageSaver is null)
+            return;
+        
+        var memoryStream = new MemoryStream();
+        BitmapImage.Save(memoryStream);
+        var fileName = $"HI_{DateTime.Now:yyyy_MM_dd_HH_ss}";
+        await PlatformServices.ImageSaver.SaveImageToGalleryAsync(memoryStream.ToArray(), fileName);
+    }
 }

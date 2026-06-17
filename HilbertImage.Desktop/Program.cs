@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using HilbertImage.Services;
 
 namespace HilbertImage.Desktop;
 
@@ -14,11 +15,14 @@ sealed class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+        PlatformServices.ImageSaver = new DesktopImageSaver();
+        return AppBuilder.Configure<App>()
             .UsePlatformDetect()
 #if DEBUG
             .WithDeveloperTools()
 #endif
             .WithInterFont()
             .LogToTrace();
+    }
 }

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:HilbertImage.ViewModels"
              xmlns:angif="using:AnimatedImage.Avalonia"
+             xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
              x:Class="HilbertImage.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -12,28 +13,45 @@
 to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
-    <Grid RowDefinitions="*,Auto,10" ColumnDefinitions="*,Auto,Auto">
-        <Panel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
-               Margin="10" Background="AliceBlue">
-            <Image Source="{Binding BitmapImage}"
-                   IsVisible="{Binding !IsLoading}"/>
-            <Image angif:ImageBehavior.AnimatedSource="avares://HilbertImage/Assets/Loading.gif"
-                   IsVisible="{Binding IsLoading}"/>
-        </Panel>
-        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
-                    Margin="10,0" Orientation="Horizontal">
-            <Label VerticalAlignment="Center" Content="模式："/>
-            <ToggleSwitch VerticalAlignment="Center"
-                          IsChecked="{Binding IsConfuse}"
-                          OnContent="加密" OffContent="解密"/>
-        </StackPanel>
-        <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"
-                Content="选择图片" Width="80"
-                HorizontalContentAlignment="Center"
-                Command="{Binding SelectImageCommand}"/>
-        <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"
-                Content="保存" Width="80" Margin="10,0"
-                HorizontalContentAlignment="Center"
-                Command="{Binding SaveImageCommand}"/>
-    </Grid>
+    <dha:DialogHost x:Name="MainDialogHost">
+        <dha:DialogHost.DialogContent>
+            <StackPanel>
+                <TextBlock Margin="20" Text="图片已保存至相册/照片"/>
+                <Button Content="确认" HorizontalAlignment="Right"
+                        Command="{Binding #MainDialogHost.CloseDialogCommand}"/>
+            </StackPanel>
+        </dha:DialogHost.DialogContent>
+        <Grid RowDefinitions="*,Auto,10" ColumnDefinitions="*,Auto,Auto">
+            <Panel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+                   Margin="10" Background="AliceBlue">
+                <Image Source="{Binding BitmapImage}"
+                       IsVisible="{Binding !IsLoading}">
+                    <Interaction.Behaviors>
+                        <EventTriggerBehavior EventName="Tapped">
+                            <InvokeCommandAction Command="{Binding #MainDialogHost.OpenDialogCommand}" />
+                            <InvokeCommandAction Command="{Binding SaveToAlbumCommand}" />
+                        </EventTriggerBehavior>
+                    </Interaction.Behaviors>
+                </Image>
+                <Image angif:ImageBehavior.AnimatedSource="avares://HilbertImage/Assets/Loading.gif"
+                       IsVisible="{Binding IsLoading}"/>
+            </Panel>
+            <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
+                        Margin="10,0" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="模式："/>
+                <ToggleSwitch VerticalAlignment="Center"
+                              IsChecked="{Binding IsConfuse}"
+                              OnContent="加密" OffContent="解密"
+                              Command="{Binding ToggleImageCommand}"/>
+            </StackPanel>
+            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"
+                    Content="选择图片" Width="80"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding SelectImageCommand}"/>
+            <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"
+                    Content="保存" Width="80" Margin="10,0"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding SaveImageCommand}"/>
+        </Grid>
+    </dha:DialogHost>
 </UserControl>
