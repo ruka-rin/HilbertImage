@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using AnimatedImage.Avalonia;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
@@ -101,5 +104,45 @@ public partial class MainViewModel : ViewModelBase
         BitmapImage.Save(memoryStream);
         var fileName = $"HI_{DateTime.Now:yyyy_MM_dd_HH_ss}";
         await PlatformServices.ImageSaver.SaveImageToGalleryAsync(memoryStream.ToArray(), fileName);
+    }
+
+    [RelayCommand]
+    private void DragOver(DragEventArgs e)
+    {
+        e.DragEffects = e.DataTransfer.Formats.Contains(DataFormat.File) ? DragDropEffects.Copy : DragDropEffects.None;
+    }
+    
+    [RelayCommand]
+    private async Task DragDrop(DragEventArgs e)
+    {
+        if (!e.DataTransfer.Formats.Contains(DataFormat.File))
+            return;
+        
+        var files = e.DataTransfer.TryGetFiles();
+        if (files?[0] is not IStorageFile file)
+            return;
+
+        string[] exts = [".png", ".jpg", ".jpeg"];
+        if (!exts.Contains(Path.GetExtension(file.Name), StringComparer.OrdinalIgnoreCase))
+            return;
+
+        await using var stream = await file.OpenReadAsync();
+        await Task.Run(() =>
+        {
+            IsLoading = true;
+            try
+            {
+                _sourceImage = new Bitmap(stream);
+                BitmapImage = ImageConfuserService.Confuse(_sourceImage, IsConfuse);
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        });
     }
 }

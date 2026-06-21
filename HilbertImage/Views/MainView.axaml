@@ -23,7 +23,15 @@ to set the actual DataContext for runtime, set the DataContext property in code 
         </dha:DialogHost.DialogContent>
         <Grid RowDefinitions="*,Auto,10" ColumnDefinitions="*,Auto,Auto">
             <Panel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
-                   Margin="10" Background="AliceBlue">
+                   Margin="10" Background="AliceBlue" DragDrop.AllowDrop="True">
+                <Interaction.Behaviors>
+                    <DragOverEventTrigger>
+                        <InvokeCommandAction Command="{Binding DragOverCommand}" PassEventArgsToCommand="True"/>
+                    </DragOverEventTrigger>
+                    <DropEventTrigger>
+                        <InvokeCommandAction Command="{Binding DragDropCommand}" PassEventArgsToCommand="True"/>
+                    </DropEventTrigger>
+                </Interaction.Behaviors>
                 <Image Source="{Binding BitmapImage}"
                        IsVisible="{Binding !IsLoading}">
                     <Interaction.Behaviors>
